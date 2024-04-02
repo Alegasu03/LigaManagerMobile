@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#615A73">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Registrate\ncon tu cuenta manager"
+        android:textSize="30dp"/>
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Usuario"
+        android:textColor="#E0E0E0"
+        android:textColorHint="#E7E7E7"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextUsername"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:textColor="#E0E0E0"
+        android:textColorHint="#E7E7E7"
+        android:minHeight="48dp" />
+
+    <EditText
+        android:id="@+id/editTextCorreo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextPassword"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Correo Electrónico"
+        android:inputType="textEmailAddress"
+        android:textColor="#E0E0E0"
+        android:textColorHint="#E7E7E7"
+        android:minHeight="48dp" />
+
+    <Spinner
+        android:id="@+id/spinnerAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextCorreo"
+        android:layout_marginTop="16dp"
+        android:minHeight="48dp"
+        style="@style/SpinnerStyle"/>
+
+    <CheckBox
+        android:id="@+id/checkBoxTerms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerAge"
+        android:layout_marginTop="16dp"
+        android:text="Acepto las condiciones y términos de seguridad"
+        android:textColor="#E7E7E7"/> <!-- Color blanco -->
+
+    <Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/checkBoxTerms"
+        android:layout_marginTop="16dp"
+        android:textAllCaps="false"
+        android:text="Crear una cuenta"
+        android:backgroundTint="#44E1F2"
+        android:enabled="false"/> <!-- Inicialmente deshabilitado -->
+
+</RelativeLayout>

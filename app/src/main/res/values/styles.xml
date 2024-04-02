@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner">
+<item name="android:backgroundTint">#E0E0E0</item>
+<item name="android:textColor">#E0E0E0</item>
+        <item name="android:tint">#E0E0E0</item>
+
+    </style>
+
+
+</resources>
