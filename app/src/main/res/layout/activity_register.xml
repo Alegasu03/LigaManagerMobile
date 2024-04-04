@@ -57,7 +57,7 @@
         android:layout_below="@id/editTextCorreo"
         android:layout_marginTop="16dp"
         android:minHeight="48dp"
-        style="@style/SpinnerStyle"/>
+        />
 
     <CheckBox
         android:id="@+id/checkBoxTerms"

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "233054845243",
+    "firebase_url": "https://liga-manager-24ab5-default-rtdb.firebaseio.com",
+    "project_id": "liga-manager-24ab5",
+    "storage_bucket": "liga-manager-24ab5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233054845243:android:ed2179562e14d3c1c25f1e",
+        "android_client_info": {
+          "package_name": "com.example.ligamanagermobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8iwCAwAUA3XWpKAnWh56xzzt_1SUWZP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
