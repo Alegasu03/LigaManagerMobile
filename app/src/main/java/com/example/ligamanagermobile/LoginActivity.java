@@ -10,8 +10,6 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
         //Eliminar Barra de Titulo
         ActivityUtils.setupFullscreen(this);
         setContentView(R.layout.activity_login);
+
         //Vinculamos los objetos
         Button btnRegister = findViewById(R.id.buttonRegister);
         Button btnLogin = findViewById(R.id.buttonLogin);
