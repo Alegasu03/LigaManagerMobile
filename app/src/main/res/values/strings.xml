@@ -10,6 +10,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="f_tbol">Fútbol</string>
+    <string name="baloncesto">Baloncesto</string>
+    <string name="tenis">Tenis</string>
     <string-array name="Edad">
         <item>1-17 años</item>
         <item>18-99 años</item>

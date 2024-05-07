@@ -12,22 +12,28 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
     private FirebaseFirestore firestore;
+    private String mUsername;
+    private String mEmail;
+    private String mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +43,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Inicializar Firestore
         firestore = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         // Inicialización de vistas
         Spinner spinnerEdad = findViewById(R.id.spinnerAge);
         TextView textView = findViewById(R.id.textView);
         EditText editTextCorreo = findViewById(R.id.editTextCorreo);
         EditText editTextContraseña = findViewById(R.id.editTextPassword);
+        EditText editTextUsuario = findViewById(R.id.editTextUsername);
         Button buttonRegister = findViewById(R.id.buttonRegister);
         CheckBox checkBoxTerms = findViewById(R.id.checkBoxTerms);
 
@@ -67,50 +75,76 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         // Listener del botón "Crear una cuenta" para realizar el registro
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkBoxTerms.isChecked() && !TextUtils.isEmpty(editTextCorreo.getText().toString())
-                        && !TextUtils.isEmpty(editTextContraseña.getText().toString())) {
-                    // Obtener los datos del usuario
-                    String correo = editTextCorreo.getText().toString().trim();
-                    String contraseña = editTextContraseña.getText().toString().trim();
+        buttonRegister.setOnClickListener(v -> {
+            String email = editTextCorreo.getText().toString();
+            String password = editTextContraseña.getText().toString();
+            String username = editTextUsuario.getText().toString();
 
-                    // Crear un mapa con los datos
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("correo", correo);
-                    data.put("contraseña", contraseña);
-
-                    // Insertar los datos en Firestore
-                    insertData("names", data);
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
-                }
+            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(username)) {
+                registerUser(email, password, username);
+            } else {
+                Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // Método para insertar los datos del usuario en Firestore
-    private void insertData(String collection, Map<String, Object> data) {
-        // Obtener una referencia a la colección en Firestore
-        DocumentReference docRef = firestore.collection(collection).document();
-
-        // Insertar los datos en Firestore
-        docRef.set(data)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            // Registro exitoso
-                            Toast.makeText(RegisterActivity.this, "Registro exitoso.", Toast.LENGTH_SHORT).show();
-                            // Te envía al inicio de sesión
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                        } else {
-                            // Error en el registro
-                            Toast.makeText(RegisterActivity.this, "Error al registrar. Inténtelo de nuevo más tarde.", Toast.LENGTH_SHORT).show();
-                        }
+    private void registerUser(String email, String password, String username) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Registration successful
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        // Guardar datos en variables globales
+                        mUsername = username;
+                        mEmail = email;
+                        mPassword = password;
+                        // Send verification email
+                        sendVerificationEmail(user);
+                    } else {
+                        // Registration failed
+                        Toast.makeText(RegisterActivity.this, "Error al registrar el usuario.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+    private void sendVerificationEmail(FirebaseUser user) {
+        if (user != null) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(RegisterActivity.this, "Se ha enviado un correo de verificación", Toast.LENGTH_SHORT).show();
+                            // Guardar datos en Firestore después de enviar el correo de verificación
+                            saveUserDataToFirestore(user);
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "No se pudo enviar el correo de verificación", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    private void saveUserDataToFirestore(FirebaseUser user) {
+        String userId = user.getUid();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("Usuario", mUsername);
+        data.put("Correo", mEmail);
+        data.put("Contraseña", mPassword);  // Agregar la contraseña a los datos a guardar
+
+        firestore.collection("Usuarios").document(userId)
+                .set(data)
+                .addOnSuccessListener(documentReference -> {
+                    // Document added successfully
+                    Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    // Error adding document
+                    Toast.makeText(RegisterActivity.this, "Error al registrar el usuario en Firestore.", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+
+
+
 }
