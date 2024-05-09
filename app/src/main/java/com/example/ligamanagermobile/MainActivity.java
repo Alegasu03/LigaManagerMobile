@@ -1,6 +1,7 @@
 package com.example.ligamanagermobile;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewUsername;
     private TextView textViewEmail;
     private FirebaseFirestore firestore;
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,14 +98,37 @@ public class MainActivity extends AppCompatActivity {
 
 
         DrawerLayout drawer = binding.drawerLayout;
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setOpenableLayout(drawer)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_tenis)
+                .setOpenableLayout(binding.drawerLayout)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+
+        // Configurar el NavigationView para manejar la navegación del menú
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // Manejar la selección del menú y navegar al fragmento correspondiente
+                int id = item.getItemId();
+                if (id == R.id.nav_home) {
+                    navController.navigate(R.id.nav_home);
+                } else if (id == R.id.nav_gallery) {
+                    navController.navigate(R.id.nav_gallery);
+                } else if (id == R.id.nav_slideshow) {
+                    navController.navigate(R.id.nav_slideshow);
+                } else if (id == R.id.nav_tenis) {
+                    navController.navigate(R.id.nav_tenis);
+                }
+                binding.drawerLayout.closeDrawers(); // Cerrar el drawer después de la selección
+                return true;
+            }
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

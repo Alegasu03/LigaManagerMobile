@@ -13,6 +13,8 @@
     <string name="f_tbol">Fútbol</string>
     <string name="baloncesto">Baloncesto</string>
     <string name="tenis">Tenis</string>
+    <string name="futbol">Futbol</string>
+    <string name="inicio">Inicio</string>
     <string-array name="Edad">
         <item>1-17 años</item>
         <item>18-99 años</item>

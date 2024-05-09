@@ -14,12 +14,17 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.ligamanagermobile.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label="Futbol"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.ligamanagermobile.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="Baloncesto"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_tenis"
+        android:name="com.example.ligamanagermobile.ui.tenis.TenisFragment"
+        android:label="Tenis"
+        tools:layout="@layout/fragment_tenis"/>
 </navigation>
