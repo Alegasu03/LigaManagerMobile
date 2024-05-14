@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageView"
-        android:text="Inicia Sesión\ncon tu cuenta Manager"
-        android:textSize="30dp"/>
+        android:text="@string/inicia_sesi_n_ncon_tu_cuenta_manager"
+        android:textSize="30sp"/>
 
     <EditText
         android:id="@+id/editTextUsername"
@@ -63,6 +63,15 @@
         android:text="Crear una cuenta"
         android:backgroundTint="#F2BF27"/>
 
+    <Button
+        android:id="@+id/ButtonAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonRegister"
+        android:layout_marginTop="16dp"
+        android:textAllCaps="false"
+        android:text="ADMIN"
+        android:backgroundTint="#2196F3"/>
 
 
 

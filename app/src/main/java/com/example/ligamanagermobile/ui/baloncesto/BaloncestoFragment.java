@@ -1,31 +1,37 @@
-package com.example.ligamanagermobile.ui.slideshow;
+package com.example.ligamanagermobile.ui.baloncesto;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ligamanagermobile.databinding.FragmentSlideshowBinding;
+import com.example.ligamanagermobile.databinding.FragmentBaloncestoBinding;
 
-public class SlideshowFragment extends Fragment {
+public class BaloncestoFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentBaloncestoBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        BaloncestoViewModel baloncestoViewModel =
+                new ViewModelProvider(this).get(BaloncestoViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentBaloncestoBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textSlideshow;
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+
+
+
+
+
+
         return root;
     }
 

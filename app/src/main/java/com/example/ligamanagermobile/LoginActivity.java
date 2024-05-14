@@ -30,6 +30,12 @@ public class LoginActivity extends AppCompatActivity {
         //Vinculamos los objetos
         Button btnRegister = findViewById(R.id.buttonRegister);
         Button btnLogin = findViewById(R.id.buttonLogin);
+        //Botón Para Poder iniciar sesión rapidamnente
+        Button btnAdmin= findViewById(R.id.ButtonAdmin);
+
+
+
+
         TextView textView = findViewById(R.id.textView);
         EditText correoText= findViewById(R.id.editTextUsername);
         EditText passwordText= findViewById(R.id.editTextPassword);
@@ -60,6 +66,22 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String correo= correoText.getText().toString().trim();
                 String contraseña= passwordText.getText().toString().trim();
+
+                if (!TextUtils.isEmpty(correo) && !TextUtils.isEmpty(contraseña)){
+                    FirebaseAuthManager firebaseAuthManager = new FirebaseAuthManager();
+                    firebaseAuthManager.signIn(LoginActivity.this, correo, contraseña);
+                }else{
+                    Toast.makeText(LoginActivity.this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnAdmin.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String correo= "alegasu03@gmail.com";
+                String contraseña= "123456";
 
                 if (!TextUtils.isEmpty(correo) && !TextUtils.isEmpty(contraseña)){
                     FirebaseAuthManager firebaseAuthManager = new FirebaseAuthManager();

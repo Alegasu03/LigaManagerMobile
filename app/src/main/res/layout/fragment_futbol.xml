@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/futbolfragment"
+    tools:context=".ui.futbol.FutbolFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/imageButtonCreaLiga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/liguecreator"
+            tools:ignore="TouchTargetSizeCheck"
+            android:contentDescription="ligamanager"/>
+
+        <ImageButton
+            android:id="@+id/imageunirseliga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/unirseliga"
+            tools:ignore="TouchTargetSizeCheck"
+            android:contentDescription="ligamanager"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
