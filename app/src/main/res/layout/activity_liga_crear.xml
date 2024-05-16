@@ -20,24 +20,48 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@color/white"
-        android:hint="Nombre de la Liga"
+        android:hint="@string/nombre_de_la_liga"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Selector de número -->
+    <EditText
+        android:id="@+id/editTextDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Número de Equipos"
+        android:enabled="false"
+        android:focusable="false"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ligaNombre"
+       />
     <Spinner
         android:id="@+id/selectorNumero"
+        android:prompt="@string/Número_de_Equipos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ligaNombre" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescripcion"/>
 
     <!-- Selección de municipios -->
+    <EditText
+        android:id="@+id/editTextMunicipio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Municipios"
+        android:enabled="false"
+        android:focusable="false"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectorNumero"/>
     <Spinner
         android:id="@+id/selectorMunicipio"
         android:layout_width="wrap_content"
@@ -46,7 +70,7 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectorNumero" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextMunicipio" />
 
     <!-- Selector de público o privada -->
     <RadioGroup

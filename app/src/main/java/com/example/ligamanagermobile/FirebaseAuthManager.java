@@ -9,7 +9,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirebaseAuthManager {
 
@@ -20,24 +22,55 @@ public class FirebaseAuthManager {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null && user.isEmailVerified()) {
-                            // Usuario autenticado y correo verificado
                             signInSuccess(activity);
                         } else {
-                            // Usuario autenticado pero correo no verificado
-                            Toast.makeText(activity, "Por favor verifica tu correo electrónico antes de iniciar sesión.", Toast.LENGTH_SHORT).show();
+                            showErrorMessage(activity, "Por favor verifica tu correo electrónico antes de iniciar sesión.");
                         }
                     } else {
-                        // Fallo al iniciar sesión usando FirebaseAuth, verificar en Firestore en caso necesario
-                        // Aquí podrías realizar una consulta a Firestore si lo prefieres
-                        Toast.makeText(activity, "Error de inicio de sesión. Credenciales incorrectas.", Toast.LENGTH_SHORT).show();
+                        showErrorMessage(activity, "Error de inicio de sesión. Credenciales incorrectas.");
                     }
                 });
     }
+    public void crearLiga(Activity activity, String nombreLiga, String descripcion, String numEquipos, String municipio, boolean esPublica) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userID = currentUser.getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+            // Crear un mapa con los datos de la nueva liga
+            Map<String, Object> nuevaLiga = new HashMap<>();
+            nuevaLiga.put("NombreLiga", nombreLiga);
+            nuevaLiga.put("Descripción", descripcion);
+            nuevaLiga.put("NumEquipos", numEquipos);
+            nuevaLiga.put("Municipio", municipio);
+            nuevaLiga.put("Privacidad", esPublica ? "Pública" : "Privada");
+            nuevaLiga.put("UsuarioPropietario", userID); // ID del usuario que la crea
+
+            // Agregar la nueva liga a la colección "Ligas" en Firestore
+            db.collection("Ligas")
+                    .add(nuevaLiga)
+                    .addOnCompleteListener(activity, task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(activity, "Liga creada exitosamente", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(activity, "Error al crear la liga", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            Toast.makeText(activity, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private void signInSuccess(Activity activity) {
-        // Redirigir a la actividad principal
-        activity.startActivity(new Intent(activity, MainActivity.class));
+        Intent intent = new Intent(activity, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
         activity.finish(); // Cierra la actividad de inicio de sesión
     }
+
+    private void showErrorMessage(Activity activity, String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+    }
 }
+

@@ -21,8 +21,8 @@ public class FutbolFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        FutbolViewModel futbolViewModel =
-                new ViewModelProvider(this).get(FutbolViewModel.class);
+        FutbolViewModel futbolViewModel;
+        futbolViewModel = new ViewModelProvider(this).get(FutbolViewModel.class);
 
         binding = FragmentFutbolBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
