@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private TextView textViewUsername;
     private TextView textViewEmail;
-    private FirebaseFirestore firestore;
     private NavController navController;
 
     @Override
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Inicializar Firestore
-        firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
         // Obtener referencia al NavigationView y al TextView del header
         NavigationView navigationView = findViewById(R.id.nav_view);

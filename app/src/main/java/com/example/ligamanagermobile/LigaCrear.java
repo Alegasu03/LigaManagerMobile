@@ -66,7 +66,7 @@ public class LigaCrear extends AppCompatActivity {
 
                 FirebaseAuthManager firebaseAuthManager = new FirebaseAuthManager();
                 firebaseAuthManager.crearLiga(LigaCrear.this, nombreLiga, desc, numEquipos, municipio, esPublica);
-            }
+                finish();            }
         });
 
 

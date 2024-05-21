@@ -13,6 +13,12 @@
         android:theme="@style/Theme.LigaManagerMobile"
         tools:targetApi="31">
         <activity
+            android:name=".DetallesLigaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MisLigasActivity"
+            android:exported="false" />
+        <activity
             android:name=".LigaCrear"
             android:exported="false" />
         <activity
@@ -38,7 +44,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.LigaManagerMobile.NoActionBar"></activity>
+            android:theme="@style/Theme.LigaManagerMobile.NoActionBar" />
     </application>
 
 </manifest>
