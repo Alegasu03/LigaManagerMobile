@@ -1,5 +1,7 @@
 package com.example.ligamanagermobile;
 
+import static com.example.ligamanagermobile.R.layout.activity_liga_crear;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +26,7 @@ public class LigaCrear extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liga_crear);
+        setContentView(activity_liga_crear);
         ActivityUtils.setupFullscreen(this);
 
 

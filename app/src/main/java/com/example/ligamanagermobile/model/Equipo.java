@@ -1,29 +1,29 @@
 package com.example.ligamanagermobile.model;
 
+import java.util.List;
+
 public class Equipo {
-    private String nombre;
+    private String nombreEquipo;
     private String ligaId; // Referencia a la liga a la que pertenece
-    private int puntos;
+    private int puntuacion; // Cambié el nombre del campo para que coincida con el de Firestore
+    private List<Jugador> jugadores;
+
+    public Equipo(String nombreEquipo, String ligaId, int puntuacion, List<Jugador> jugadores) {
+        this.nombreEquipo = nombreEquipo;
+        this.ligaId = ligaId;
+        this.puntuacion = puntuacion;
+        this.jugadores = jugadores;
+    }
 
     public Equipo() {
-        // Constructor vacío requerido por Firestore
     }
 
-    public Equipo(String nombre, String ligaId, int puntos) {
-        this.nombre = nombre;
-        this.ligaId = ligaId;
-        this.puntos = puntos;
+
+
+    public String getNombreEquipo() {
+        return nombreEquipo;
     }
 
-    // Getters y setters
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public String getLigaId() {
         return ligaId;
@@ -33,11 +33,17 @@ public class Equipo {
         this.ligaId = ligaId;
     }
 
-    public int getPuntos() {
-        return puntos;
+    public int getPuntuacion() {
+        return puntuacion;
     }
 
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
+
+
+    public List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
     }
 }

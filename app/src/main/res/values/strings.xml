@@ -46,4 +46,7 @@
     <string name="previous">Previous</string>
 
     <string name="nombre_de_la_liga">Nombre de la Liga</string>
+    <string name="nombre_del_equipo">Nombre del equipo</string>
+    <string name="agregar_jugador">Agregar Jugador</string>
+    <string name="guardar_equipo">Guardar Equipo</string>
 </resources>

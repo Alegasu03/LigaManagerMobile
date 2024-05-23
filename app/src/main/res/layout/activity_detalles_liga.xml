@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetallesLigaActivity">
+    tools:context=".DetallesLigaActivity"
+    android:background="#615A73">
 
     <!-- Encabezado con el nombre de la liga -->
     <TextView
@@ -65,15 +66,17 @@
     </LinearLayout>
 
     <!-- Botón para agregar equipo (solo visible si es el propietario de la liga) -->
-    <Button
+    <ImageButton
         android:id="@+id/btnAgregarEquipo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
+        android:src="@drawable/button_agregar_equipo"
         android:text="Agregar Equipo"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:contentDescription="Agregar Equipo" />
 
 </RelativeLayout>
 

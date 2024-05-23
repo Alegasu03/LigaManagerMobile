@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="@drawable/fondo_equipo">
+
+    <!-- EditText para ingresar el nombre del equipo -->
+    <EditText
+        android:id="@+id/editTextNombreEquipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/nombre_del_equipo"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Botón para agregar jugador -->
+    <Button
+        android:id="@+id/buttonAgregarJugador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/agregar_jugador"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Contenedor para mostrar los jugadores en la formación 3-4-3 -->
+    <LinearLayout
+        android:id="@+id/layoutFormacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Fila de delanteros (3) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+            <ImageView android:id="@+id/forward1" style="@style/FormationImage" android:visibility="gone"/>
+            <ImageView android:id="@+id/forward2" style="@style/FormationImage" android:visibility="gone"/>
+            <ImageView android:id="@+id/forward3" style="@style/FormationImage" android:visibility="gone"/>
+        </LinearLayout>
+
+        <!-- Fila de centrocampistas (4) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+            <ImageView android:id="@+id/midfield1" style="@style/FormationImage" android:visibility="gone"/>
+            <ImageView android:id="@+id/midfield2" style="@style/FormationImage" android:visibility="gone"/>
+            <ImageView android:id="@+id/midfield3" style="@style/FormationImage" android:visibility="gone"/>
+            <ImageView android:id="@+id/midfield4" style="@style/FormationImage" android:visibility="gone"/>
+        </LinearLayout>
+
+        <!-- Fila de defensas (3) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp">
+            <ImageView android:id="@+id/defense1" style="@style/FormationImage" android:visibility="gone"/>
+            <ImageView android:id="@+id/defense2" style="@style/FormationImage" android:visibility="gone"/>
+            <ImageView android:id="@+id/defense3" style="@style/FormationImage" android:visibility="gone"/>
+        </LinearLayout>
+
+        <!-- Portero (1) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView android:id="@+id/goalkeeper" style="@style/FormationImage" android:visibility="gone"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Botón para guardar el equipo -->
+    <Button
+        android:id="@+id/buttonCrearEquipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/guardar_equipo"
+        />
+
+</LinearLayout>

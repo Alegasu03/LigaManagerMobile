@@ -20,8 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -29,16 +28,17 @@ import java.util.List;
 
 public class MisLigasActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerViewLigas;
     private LigaAdapter ligaAdapter;
     private List<Liga> ligas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActivityUtils.setupFullscreen(this);
+
         setContentView(R.layout.activity_mis_ligas);
 
-        recyclerViewLigas = findViewById(R.id.recyclerViewLigas);
+        RecyclerView recyclerViewLigas = findViewById(R.id.recyclerViewLigas);
         recyclerViewLigas.setLayoutManager(new LinearLayoutManager(this));
         ligas = new ArrayList<>();
         ligaAdapter = new LigaAdapter(ligas,this);
@@ -55,54 +55,51 @@ public class MisLigasActivity extends AppCompatActivity {
             CollectionReference ligasRef = db.collection("Ligas");
 
             ligasRef.whereEqualTo("UsuarioPropietario", userId)
-                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                            if (e != null) {
-                                return;
-                            }
+                    .addSnapshotListener((snapshots, e) -> {
+                        if (e != null) {
+                            Log.w(TAG, "Error al obtener ligas", e);
+                            return;
+                        }
 
-                            ligas.clear();
-                            if (snapshots != null) {
-                                for (DocumentSnapshot doc : snapshots.getDocuments()) {
-                                    String nombre = doc.getString("NombreLiga");
-                                    String maxEquiposString = doc.getString("NumEquipos");
-                                    int maxEquipos = 0;
-                                    // Obtener el ID del documento
-                                    String idLiga = doc.getId();
-                                    if (maxEquiposString != null && !maxEquiposString.isEmpty()) {
-                                        maxEquipos = Integer.parseInt(maxEquiposString);
-                                    }
+                        ligas.clear();
+                        if (snapshots != null) {
+                            for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                                String nombre = doc.getString("NombreLiga");
+                                String maxEquiposString = doc.getString("NumEquipos");
+                                int maxEquipos;
+                                String idLiga = doc.getId(); // Obtener el ID del documento
 
-                                    // Obtener el número actual de equipos para esta liga
-                                    CollectionReference equiposRef = db.collection("Equipos");
-                                    int finalMaxEquipos = maxEquipos;
-                                    equiposRef.whereEqualTo("ligaId", idLiga).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                int numEquipos = task.getResult().size();
-
-                                                // Verificar si se pueden crear más equipos
-                                                if (numEquipos < finalMaxEquipos) {
-                                                    Liga liga = new Liga(nombre, numEquipos, finalMaxEquipos);
-                                                    liga.setId(idLiga); // Asignar el ID al objeto Liga
-                                                    ligas.add(liga);
-                                                    ligaAdapter.notifyDataSetChanged();
-                                                } else {
-                                                    // Muestra un mensaje o toma otra acción si ya se alcanzó el límite de equipos
-                                                    Log.d(TAG, "Ya se alcanzó el límite de equipos para la liga " + nombre);
-                                                }
-                                            } else {
-                                                Log.d(TAG, "Error obteniendo documentos: ", task.getException());
-                                            }
-                                        }
-                                    });
+                                if (maxEquiposString != null && !maxEquiposString.isEmpty()) {
+                                    maxEquipos = Integer.parseInt(maxEquiposString);
+                                } else {
+                                    maxEquipos = 0;
                                 }
+
+                                // Obtener la cantidad actual de equipos para esta liga
+                                CollectionReference equiposRef = db.collection("Ligas").document(idLiga).collection("Equipos");
+                                equiposRef.get().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        int numEquipos = task.getResult().size();
+
+                                        // Verificar si se pueden crear más equipos
+                                        if (numEquipos < maxEquipos) {
+                                            Liga liga = new Liga(nombre, numEquipos, maxEquipos);
+                                            liga.setId(idLiga); // Asignar el ID al objeto Liga
+                                            ligas.add(liga);
+                                            ligaAdapter.notifyDataSetChanged();
+                                        } else {
+                                            // Puedes manejar el caso cuando se alcanza el límite de equipos aquí
+                                            Log.d(TAG, "Ya se alcanzó el límite de equipos para la liga " + nombre);
+                                        }
+                                    } else {
+                                        Log.d(TAG, "Error al obtener equipos para la liga " + nombre, task.getException());
+                                    }
+                                });
                             }
                         }
                     });
         }
     }
+
 
 }
