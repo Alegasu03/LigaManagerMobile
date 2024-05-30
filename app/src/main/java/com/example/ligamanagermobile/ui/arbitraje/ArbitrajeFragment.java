@@ -1,30 +1,29 @@
-package com.example.ligamanagermobile.ui.baloncesto;
+package com.example.ligamanagermobile.ui.arbitraje;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ligamanagermobile.databinding.FragmentBaloncestoBinding;
+import com.example.ligamanagermobile.databinding.FragmentArbitrajeBinding;
 
-public class BaloncestoFragment extends Fragment {
+public class ArbitrajeFragment extends Fragment {
 
-    private FragmentBaloncestoBinding binding;
+    private FragmentArbitrajeBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        BaloncestoViewModel baloncestoViewModel;
-        baloncestoViewModel = new ViewModelProvider(this).get(BaloncestoViewModel.class);
+        ArbitrajeViewModel arbitrajeViewModel =
+                new ViewModelProvider(this).get(ArbitrajeViewModel.class);
 
-        binding = FragmentBaloncestoBinding.inflate(inflater, container, false);
+        binding = FragmentArbitrajeBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
-
-        return binding.getRoot();
+        return root;
     }
 
     @Override

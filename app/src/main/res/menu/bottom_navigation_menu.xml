@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/inicio"
+        android:title="Inicio" />
+    <item
+        android:id="@+id/navigation_futbol"
+        android:icon="@drawable/soccer_ball"
+        android:title="Futbol" />
+    <item
+        android:id="@+id/navigation_arbitraje"
+        android:icon="@drawable/arbitraje"
+        android:title="Arbitraje" />
+    <item
+        android:id="@+id/navigation_misligas"
+        android:icon="@drawable/ligas"
+        android:title="Mis Ligas" />
+</menu>

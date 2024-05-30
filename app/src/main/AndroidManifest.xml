@@ -13,6 +13,9 @@
         android:theme="@style/Theme.LigaManagerMobile"
         tools:targetApi="31">
         <activity
+            android:name=".MisParticipaciones"
+            android:exported="false" />
+        <activity
             android:name=".Buscador_Ligas"
             android:exported="false" />
         <activity

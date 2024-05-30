@@ -1,14 +1,18 @@
-package com.example.ligamanagermobile;
+package com.example.ligamanagermobile.ui.misligas;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ligamanagermobile.R;
 import com.example.ligamanagermobile.model.Liga;
 import com.example.ligamanagermobile.ui.LigaAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,24 +24,21 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MisLigasActivity extends AppCompatActivity {
+public class MisLigasFragment extends Fragment {
 
-    private static final String TAG = "MisLigasActivity";
+    private static final String TAG = "MisLigasFragment";
 
     private LigaAdapter ligaAdapter;
     private List<Liga> ligas;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ActivityUtils.setupFullscreen(this);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_misligas, container, false);
 
-        setContentView(R.layout.activity_mis_ligas);
-
-        RecyclerView recyclerViewLigas = findViewById(R.id.recyclerViewLigas);
-        recyclerViewLigas.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerViewLigas = root.findViewById(R.id.recyclerViewLigas);
+        recyclerViewLigas.setLayoutManager(new LinearLayoutManager(getContext()));
         ligas = new ArrayList<>();
-        ligaAdapter = new LigaAdapter(ligas, this);
+        ligaAdapter = new LigaAdapter(ligas, getContext());
         recyclerViewLigas.setAdapter(ligaAdapter);
 
         // Configurar ItemTouchHelper
@@ -45,7 +46,7 @@ public class MisLigasActivity extends AppCompatActivity {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
                 int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-                int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END; // Permitir el swipe hacia la izquierda y derecha
+                int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
                 return makeMovementFlags(dragFlags, swipeFlags);
             }
 
@@ -59,8 +60,6 @@ public class MisLigasActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                // Este método se llama cuando el usuario realiza un swipe (deslizar) en un elemento
-                // aquí puedes realizar las acciones necesarias para eliminar el elemento de la lista y de la base de datos
                 int position = viewHolder.getAbsoluteAdapterPosition();
                 Liga ligaToDelete = ligas.get(position);
                 ligas.remove(position);
@@ -75,6 +74,8 @@ public class MisLigasActivity extends AppCompatActivity {
 
         // Cargar las ligas desde Firestore
         loadLigasFromFirestore();
+
+        return root;
     }
 
     private void loadLigasFromFirestore() {
@@ -97,7 +98,7 @@ public class MisLigasActivity extends AppCompatActivity {
                                 String nombre = doc.getString("NombreLiga");
                                 String maxEquiposString = doc.getString("NumEquipos");
                                 int maxEquipos;
-                                String idLiga = doc.getId(); // Obtener el ID del documento
+                                String idLiga = doc.getId();
 
                                 if (maxEquiposString != null && !maxEquiposString.isEmpty()) {
                                     maxEquipos = Integer.parseInt(maxEquiposString);
@@ -105,20 +106,17 @@ public class MisLigasActivity extends AppCompatActivity {
                                     maxEquipos = 0;
                                 }
 
-                                // Obtener la cantidad actual de equipos para esta liga
                                 CollectionReference equiposRef = db.collection("Ligas").document(idLiga).collection("Equipos");
                                 equiposRef.get().addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
                                         int numEquipos = task.getResult().size();
 
-                                        // Verificar si se pueden crear más equipos
                                         if (numEquipos < maxEquipos) {
                                             Liga liga = new Liga(nombre, numEquipos, maxEquipos);
-                                            liga.setId(idLiga); // Asignar el ID al objeto Liga
+                                            liga.setId(idLiga);
                                             ligas.add(liga);
                                             ligaAdapter.notifyDataSetChanged();
                                         } else {
-                                            // Puedes manejar el caso cuando se alcanza el límite de equipos aquí
                                             Log.d(TAG, "Ya se alcanzó el límite de equipos para la liga " + nombre);
                                         }
                                     } else {
@@ -131,7 +129,6 @@ public class MisLigasActivity extends AppCompatActivity {
         }
     }
 
-    // Método para eliminar la liga de Firestore
     private void deleteLiga(String ligaId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Ligas").document(ligaId).delete()

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ligamanagermobile.model.Equipo;
 import com.example.ligamanagermobile.ui.EquipoAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DetallesLigaActivity extends AppCompatActivity {
@@ -35,6 +37,7 @@ public class DetallesLigaActivity extends AppCompatActivity {
     private List<Equipo> equipos;
     private boolean userCanAddTeam = true;
     private String ligaId;
+    private String currentUserPropietarioId; // ID del propietario actual
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,17 @@ public class DetallesLigaActivity extends AppCompatActivity {
         recyclerViewClasificacion.setLayoutManager(new LinearLayoutManager(this));
 
         equipos = new ArrayList<>();
-        equipoAdapter = new EquipoAdapter(equipos);
-        recyclerViewClasificacion.setAdapter(equipoAdapter);
-
         db = FirebaseFirestore.getInstance();
+
+        // Obtener instancia de autenticación de Firebase
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            currentUserPropietarioId = currentUser.getUid(); // Obtener el ID del usuario actual
+        }
+
+        equipoAdapter = new EquipoAdapter(equipos, currentUserPropietarioId); // Pasar el ID del propietario al adaptador
+        recyclerViewClasificacion.setAdapter(equipoAdapter);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -100,8 +110,9 @@ public class DetallesLigaActivity extends AppCompatActivity {
                                         String nombreEquipo = document1.getString("nombreEquipo");
                                         Long puntuacionLong = document1.getLong("puntuacion");
                                         int puntuacion = (puntuacionLong != null) ? puntuacionLong.intValue() : 0;
+                                        String propietarioID= document1.getString("propietarioId");
 
-                                        Equipo equipo = new Equipo(nombreEquipo, ligaId, puntuacion, null);
+                                        Equipo equipo = new Equipo(nombreEquipo, ligaId, puntuacion, propietarioID );
                                         equipos.add(equipo);
                                     }
 
@@ -127,19 +138,33 @@ public class DetallesLigaActivity extends AppCompatActivity {
     }
 
     private void agregarEquipo() {
-        if (userCanAddTeam) {
-            Intent intent = new Intent(DetallesLigaActivity.this, AgregarEquipoActivity.class);
-            intent.putExtra("LIGA_ID", ligaId);
-            startActivity(intent);
+        // Verificar si el usuario ya es propietario de un equipo en esta liga
+        boolean userHasTeamInThisLeague = false;
+        for (Equipo equipo : equipos) {
+            if (equipo.getPropietarioId() != null && equipo.getPropietarioId().equals(currentUserPropietarioId)) {
+                userHasTeamInThisLeague = true;
+                break;
+            }
+        }
+
+        if (userHasTeamInThisLeague) {
+            // El usuario ya es propietario de un equipo en esta liga, mostrar mensaje
+            Toast.makeText(this, "Ya eres propietario de un equipo en esta liga", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "No se pueden agregar más equipos a esta liga", Toast.LENGTH_SHORT).show();
+            // El usuario no tiene un equipo en esta liga, permitir la creación de un nuevo equipo
+            if (userCanAddTeam) {
+                Intent intent = new Intent(DetallesLigaActivity.this, AgregarEquipoActivity.class);
+                intent.putExtra("LIGA_ID", ligaId);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "No se pueden agregar más equipos a esta liga", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
+
     // Método para cargar equipos desde Firestore
     private void loadEquiposFromFirestore(String ligaId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         // Obtener la referencia de la colección "Equipos" dentro del documento de la liga
         CollectionReference equiposRef = db.collection("Ligas").document(ligaId).collection("Equipos");
 
@@ -154,15 +179,26 @@ public class DetallesLigaActivity extends AppCompatActivity {
                 for (DocumentSnapshot equipoDoc : snapshots.getDocuments()) {
                     String nombreEquipo = equipoDoc.getString("NombreEquipo");
                     long puntuacion = equipoDoc.getLong("Puntuacion");
+                    String propietarioID = equipoDoc.getString("PropietarioId");
 
                     // Crea un objeto Equipo con el nombre y la puntuación
-                    Equipo equipo = new Equipo(nombreEquipo, ligaId, (int) puntuacion, null);
+                    Equipo equipo = new Equipo(nombreEquipo, ligaId, (int) puntuacion, propietarioID);
                     equipos.add(equipo);
                 }
 
-                // Notifica al adaptador que los datos han cambiado
+                // Ordenar los equipos por puntuación (de mayor a menor)
+                Collections.sort(equipos, new Comparator<Equipo>() {
+                    @Override
+                    public int compare(Equipo equipo1, Equipo equipo2) {
+                        return Integer.compare(equipo2.getPuntuacion(), equipo1.getPuntuacion());
+                    }
+                });
+
+                // Notificar al adaptador que los datos han cambiado
                 equipoAdapter.notifyDataSetChanged();
             }
         });
     }
+
 }
+

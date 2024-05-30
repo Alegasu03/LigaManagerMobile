@@ -16,9 +16,11 @@ import java.util.List;
 public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoViewHolder> {
 
     private List<Equipo> equipos;
+    private String currentUserPropietarioId; // Campo para almacenar el ID del propietario actual
 
-    public EquipoAdapter(List<Equipo> equipos) {
+    public EquipoAdapter(List<Equipo> equipos, String currentUserPropietarioId) {
         this.equipos = equipos;
+        this.currentUserPropietarioId = currentUserPropietarioId; // Asignar el ID del propietario actual
     }
 
     @NonNull
@@ -32,7 +34,7 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
     @Override
     public void onBindViewHolder(@NonNull EquipoViewHolder holder, int position) {
         Equipo equipo = equipos.get(position);
-        holder.bind(equipo);
+        holder.bind(equipo, currentUserPropietarioId); // Pasar el ID del propietario al método bind
     }
 
     @Override
@@ -51,9 +53,17 @@ public class EquipoAdapter extends RecyclerView.Adapter<EquipoAdapter.EquipoView
             puntosTextView = itemView.findViewById(R.id.puntosTextView);
         }
 
-        public void bind(Equipo equipo) {
+        public void bind(Equipo equipo, String currentUserPropietarioId) {
             nombreTextView.setText(equipo.getNombreEquipo());
             puntosTextView.setText(String.valueOf(equipo.getPuntuacion()));
+            // Verificar si el usuario actual es propietario del equipo
+            if (equipo.getPropietarioId() != null && equipo.getPropietarioId().equals(currentUserPropietarioId)) {
+                // Cambiar el color del texto si el usuario actual es propietario del equipo
+                nombreTextView.setTextColor(itemView.getResources().getColor(R.color.green));
+            } else {
+                // Restaurar el color predeterminado del texto si el usuario no es propietario del equipo
+                nombreTextView.setTextColor(itemView.getResources().getColor(android.R.color.black));
+            }
         }
     }
 }
