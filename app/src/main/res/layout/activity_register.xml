@@ -1,82 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#615A73">
+    android:background="@color/LigaManager"
+    tools:context=".RegisterActivity">
 
+    <!-- Welcome Text -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="Registrate\ncon tu cuenta manager"
-        android:textSize="30dp"/>
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"/>
 
-    <EditText
-        android:id="@+id/editTextUsername"
+    <!-- Username Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_border"
-        android:hint="Usuario"
-        android:textColor="#E0E0E0"
-        android:textColorHint="#E7E7E7"
-        android:minHeight="48dp" />
+        style="@style/Widget.TextInputLayout.BlackOutlineBox">
 
-    <EditText
-        android:id="@+id/editTextPassword"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Usuario"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Password Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextUsername"
+        android:layout_below="@id/textInputLayoutUsername"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_border"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:textColor="#E0E0E0"
-        android:textColorHint="#E7E7E7"
-        android:minHeight="48dp" />
+        style="@style/Widget.TextInputLayout.BlackOutlineBox">
 
-    <EditText
-        android:id="@+id/editTextCorreo"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Email Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/textInputLayoutPassword"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_border"
-        android:hint="Correo Electrónico"
-        android:inputType="textEmailAddress"
-        android:textColor="#E0E0E0"
-        android:textColorHint="#E7E7E7"
-        android:minHeight="48dp" />
+        style="@style/Widget.TextInputLayout.BlackOutlineBox">
 
-    <Spinner
-        android:id="@+id/spinnerAge"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo Electrónico"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Age Spinner -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutAge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextCorreo"
+        android:layout_below="@id/textInputLayoutEmail"
         android:layout_marginTop="16dp"
-        android:minHeight="48dp"
-        />
+        style="@style/Widget.TextInputLayout.BlackOutlineBox">
 
+        <Spinner
+            android:id="@+id/spinnerAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:padding="8dp"
+            android:background="@null"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Terms CheckBox -->
     <CheckBox
         android:id="@+id/checkBoxTerms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerAge"
+        android:layout_below="@id/textInputLayoutAge"
         android:layout_marginTop="16dp"
         android:text="Acepto las condiciones y términos de seguridad"
-        android:textColor="#E7E7E7"/> <!-- Color blanco -->
+        android:textColor="@color/white"/> <!-- Color blanco -->
 
-    <Button
+    <!-- Register Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/checkBoxTerms"
         android:layout_marginTop="16dp"
-        android:textAllCaps="false"
         android:text="Crear una cuenta"
-        android:backgroundTint="#44E1F2"
+        android:backgroundTint="@color/button_login"
         android:enabled="false"/> <!-- Inicialmente deshabilitado -->
 
 </RelativeLayout>

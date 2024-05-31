@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ligamanagermobile.model.Liga;
-import com.example.ligamanagermobile.ui.LigaAdapter;
+import com.example.ligamanagermobile.Adapters.LigaAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,13 +31,17 @@ public class Buscador_Ligas extends AppCompatActivity {
     private List<Liga> ligas;
     private Spinner spinnerMunicipio;
     private Button btnBuscar;
+    private ImageView imageViewInfo;
+
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityUtils.setupFullscreen(this);
-
         setContentView(R.layout.activity_buscador_ligas);
+
+        db = FirebaseFirestore.getInstance();
 
         RecyclerView recyclerViewLigas = findViewById(R.id.recyclerViewLigas);
         recyclerViewLigas.setLayoutManager(new LinearLayoutManager(this));
@@ -63,6 +68,8 @@ public class Buscador_Ligas extends AppCompatActivity {
 
         btnBuscar.setOnClickListener(v -> loadLigasFromFirestore());
 
+
+
         loadLigasFromFirestore();
     }
 
@@ -70,7 +77,6 @@ public class Buscador_Ligas extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
             CollectionReference ligasRef = db.collection("Ligas");
 
             String municipioSeleccionado = spinnerMunicipio.getSelectedItem().toString();
@@ -128,4 +134,8 @@ public class Buscador_Ligas extends AppCompatActivity {
                     });
         }
     }
+
+
 }
+
+

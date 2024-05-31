@@ -6,11 +6,11 @@ public class Partido {
     private String equipoVisitante;
     private String resultado;
 
-    public Partido() {
+    public Partido(Equipo local, Equipo visitante) {
         // Constructor vacío requerido por Firestore
     }
 
-    public Partido(String equipoLocal, String equipoVisitante, String resultado) {
+    public Partido(String equipoLocal, String equipoVisitante) {
         this.equipoLocal = equipoLocal;
         this.equipoVisitante = equipoVisitante;
         this.resultado = resultado;

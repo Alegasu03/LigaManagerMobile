@@ -16,8 +16,15 @@ import java.util.Map;
 
 public class FirebaseAuthManager {
 
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mFirestore;
+
+    public FirebaseAuthManager() {
+        mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
+    }
+
     public void signIn(Activity activity, String correo, String contraseña) {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(correo, contraseña)
                 .addOnCompleteListener(activity, task -> {
                     if (task.isSuccessful()) {
@@ -32,53 +39,45 @@ public class FirebaseAuthManager {
                     }
                 });
     }
-    public void crearLiga(Activity activity, String nombreLiga, String descripcion, String numEquipos, String municipio, boolean esPublica) {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+    public void crearLiga(Activity activity, String nombreLiga, String descripcion, String numEquipos, String municipio, String accesibilidad) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String userID = currentUser.getUid();
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            // Crear un mapa con los datos de la nueva liga
             Map<String, Object> nuevaLiga = new HashMap<>();
             nuevaLiga.put("NombreLiga", nombreLiga);
             nuevaLiga.put("Descripción", descripcion);
             nuevaLiga.put("NumEquipos", numEquipos);
             nuevaLiga.put("Municipio", municipio);
-            nuevaLiga.put("Privacidad", esPublica ? "Pública" : "Privada");
-            nuevaLiga.put("UsuarioPropietario", userID); // ID del usuario que la crea
+            nuevaLiga.put("Accesibilidad", accesibilidad);
+            nuevaLiga.put("UsuarioPropietario", userID);
 
-            // Agregar la nueva liga a la colección "Ligas" en Firestore
-            db.collection("Ligas")
+            mFirestore.collection("Ligas")
                     .add(nuevaLiga)
                     .addOnCompleteListener(activity, task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(activity, "Liga creada exitosamente", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(activity, "Error al crear la liga", Toast.LENGTH_SHORT).show();
+                            showErrorMessage(activity, "Error al crear la liga");
                         }
                     });
         } else {
-            Toast.makeText(activity, "Usuario no autenticado", Toast.LENGTH_SHORT).show();
+            showErrorMessage(activity, "Usuario no autenticado");
         }
     }
+
     public void crearEquipo(Activity activity, String nombreEquipo, String ligaId, List<Jugador> jugadores, OnEquipoCreatedListener listener) {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-            // Obtener el ID del usuario actualmente autenticado
             String propietarioId = currentUser.getUid();
 
-            // Crear un mapa con los datos del nuevo equipo
             Map<String, Object> nuevoEquipo = new HashMap<>();
             nuevoEquipo.put("NombreEquipo", nombreEquipo);
-            nuevoEquipo.put("LigaId", ligaId); // Referencia a la liga
-            nuevoEquipo.put("PropietarioId", propietarioId); // ID del propietario del equipo
-            nuevoEquipo.put("Puntuacion", 0); // Puntuación inicial
+            nuevoEquipo.put("LigaId", ligaId);
+            nuevoEquipo.put("PropietarioId", propietarioId);
+            nuevoEquipo.put("Puntuacion", 0);
 
-            // Crear una lista de mapas para los jugadores
             List<Map<String, String>> jugadoresList = new ArrayList<>();
             for (Jugador jugador : jugadores) {
                 Map<String, String> jugadorMap = new HashMap<>();
@@ -89,8 +88,7 @@ public class FirebaseAuthManager {
             }
             nuevoEquipo.put("Jugadores", jugadoresList);
 
-            // Agregar el nuevo equipo a la colección de equipos de la liga en Firestore
-            db.collection("Ligas").document(ligaId).collection("Equipos")
+            mFirestore.collection("Ligas").document(ligaId).collection("Equipos")
                     .add(nuevoEquipo)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -104,9 +102,6 @@ public class FirebaseAuthManager {
         }
     }
 
-
-
-
     private void signInSuccess(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -117,9 +112,10 @@ public class FirebaseAuthManager {
     private void showErrorMessage(Activity activity, String message) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
     }
+
     public interface OnEquipoCreatedListener {
         void onEquipoCreated();
+
         void onError(String errorMessage);
     }
 }
-

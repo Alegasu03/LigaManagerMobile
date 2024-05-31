@@ -1,20 +1,23 @@
-package com.example.ligamanagermobile.ui;
+package com.example.ligamanagermobile.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.ligamanagermobile.R;
 import com.example.ligamanagermobile.model.Partido;
+
 import java.util.List;
 
-public class PartidoAdapter extends RecyclerView.Adapter<PartidoAdapter.PartidoViewHolder> {
+public class PartidosAdapter extends RecyclerView.Adapter<PartidosAdapter.PartidoViewHolder> {
 
     private List<Partido> partidos;
 
-    public PartidoAdapter(List<Partido> partidos) {
+    public PartidosAdapter(List<Partido> partidos) {
         this.partidos = partidos;
     }
 
@@ -39,21 +42,19 @@ public class PartidoAdapter extends RecyclerView.Adapter<PartidoAdapter.PartidoV
 
     static class PartidoViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView equipoLocalTextView;
-        private TextView equipoVisitanteTextView;
-        private TextView resultadoTextView;
+        private TextView textViewEquipoLocal;
+        private TextView textViewEquipoVisitante;
 
         public PartidoViewHolder(@NonNull View itemView) {
             super(itemView);
-            equipoLocalTextView = itemView.findViewById(R.id.equipoLocalTextView);
-            equipoVisitanteTextView = itemView.findViewById(R.id.equipoVisitanteTextView);
-            resultadoTextView = itemView.findViewById(R.id.resultadoTextView);
+            textViewEquipoLocal = itemView.findViewById(R.id.textViewEquipoLocal);
+            textViewEquipoVisitante = itemView.findViewById(R.id.textViewEquipoVisitante);
         }
 
         public void bind(Partido partido) {
-            equipoLocalTextView.setText(partido.getEquipoLocal());
-            equipoVisitanteTextView.setText(partido.getEquipoVisitante());
-            resultadoTextView.setText(partido.getResultado());
+            textViewEquipoLocal.setText(partido.getEquipoLocal());
+            textViewEquipoVisitante.setText(partido.getEquipoVisitante());
         }
     }
 }
+

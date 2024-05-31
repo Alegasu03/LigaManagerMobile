@@ -2,26 +2,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:background="@color/white"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/equipoLocalTextView"
+        android:id="@+id/textViewEquipoLocal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="16sp" />
+        android:text="Equipo Local"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/resultadoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp" />
+        android:text="vs"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+     />
 
     <TextView
-        android:id="@+id/equipoVisitanteTextView"
+        android:id="@+id/textViewEquipoVisitante"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="16sp" />
-
+        android:text="Equipo Visitante"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:gravity="end"/>
 </LinearLayout>

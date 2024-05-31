@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ligamanagermobile.MisLigasActivity;
+import com.example.ligamanagermobile.AyudaActivity;
+import com.example.ligamanagermobile.LoginActivity;
 import com.example.ligamanagermobile.MisParticipaciones;
 import com.example.ligamanagermobile.R;
 import com.example.ligamanagermobile.databinding.FragmentHomeBinding;
@@ -26,16 +26,23 @@ public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-
+        // Inflar el diseño del fragmento y obtener la vista raíz
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-// Obtener la instancia de FirebaseAuth para obtener el usuario actual
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Configurar la interfaz de usuario
+        setupUI(root);
+
+        return root;
+    }
+
+    // Método para configurar la interfaz de usuario
+    private void setupUI(View root) {
+        // Obtener el usuario actual
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             // Obtener el ID del usuario actual
             String userId = currentUser.getUid();
@@ -55,42 +62,49 @@ public class HomeFragment extends Fragment {
                         TextView textViewUsername = root.findViewById(R.id.textViewUsername);
                         textViewUsername.setText(username);
                     } else {
-                        // Documento no encontrado, manejar el error
-                        TextView textViewUsername = root.findViewById(R.id.textViewUsername);
-                        textViewUsername.setText("Usuario no encontrado");
+                        handleFirestoreError(root, "Usuario no encontrado");
                     }
                 } else {
-                    // Error al obtener el documento, manejar el error
-                    TextView textViewUsername = root.findViewById(R.id.textViewUsername);
-                    textViewUsername.setText("Error al obtener datos");
+                    handleFirestoreError(root, "Error al obtener datos");
                 }
             });
-        }
-            Button botonMisLigas = root.findViewById(R.id.buttonMisLigas);
-            Button botonMisparticipaciones = root.findViewById(R.id.buttonMisParticipaciones);
-            botonMisLigas.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Iniciar MisLigasActivity cuando se hace clic en el botón de Mis Ligas
-                    Intent intent = new Intent(requireContext(), MisLigasActivity.class);
-                    startActivity(intent);
-                }
-            });
-            botonMisparticipaciones.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Iniciar MisParticipaciones cuando se hace clic en el botón de Mis Participaciones
-                    Intent intent = new Intent(requireContext(), MisParticipaciones.class);
-                    startActivity(intent);
-                }
-            });
-
-            return root;
         }
 
-        @Override
-        public void onDestroyView () {
-            super.onDestroyView();
-            binding = null;
-        }
+        // Configurar el botón de Mis Participaciones
+        AppCompatImageButton botonMisparticipaciones = root.findViewById(R.id.buttonMisParticipaciones);
+        botonMisparticipaciones.setBackground(null);
+        botonMisparticipaciones.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), MisParticipaciones.class);
+            startActivity(intent);
+        });
+
+        // Configurar el botón de cerrar sesión
+        AppCompatImageButton botonCerrarSesion = root.findViewById(R.id.buttonCerrarSesion);
+        botonCerrarSesion.setBackground(null);
+        botonCerrarSesion.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(requireContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
+
+        AppCompatImageButton botonAyuda = root.findViewById(R.id.buttonAyuda);
+        botonAyuda.setBackground(null);
+        botonAyuda.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), AyudaActivity.class);
+            startActivity(intent);
+        });
     }
+
+    // Método para manejar errores de Firestore
+    private void handleFirestoreError(View root, String errorMessage) {
+        TextView textViewUsername = root.findViewById(R.id.textViewUsername);
+        textViewUsername.setText(errorMessage);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+}

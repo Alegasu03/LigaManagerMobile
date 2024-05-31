@@ -8,69 +8,84 @@
     tools:context=".ui.home.HomeFragment">
 
 
-        <!-- CardView para mostrar el usuario -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardViewUser"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginHorizontal="16dp"
-            android:elevation="4dp"
-            app:cardCornerRadius="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+    <!-- CardView para mostrar el usuario -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewUser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="16dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:gravity="center_vertical">
+
+            <!-- Nombre del usuario -->
+            <TextView
+                android:id="@+id/textViewUsername"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                android:gravity="center_vertical">
+                android:layout_weight="1"
+                android:text="Nombre de Usuario"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center_vertical" />
 
-                <!-- Nombre del usuario -->
-                <TextView
-                    android:id="@+id/textViewUsername"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Nombre de Usuario"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:gravity="center_vertical" />
+            <!-- Imagen del usuario -->
+            <ImageView
+                android:id="@+id/imageViewUser"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/icono"
+                android:layout_marginStart="16dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-                <!-- Imagen del usuario -->
-                <ImageView
-                    android:id="@+id/imageViewUser"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/icono"
-                    android:layout_marginStart="16dp"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
 
-        <!-- Botón Mis Ligas -->
-        <Button
-            android:id="@+id/buttonMisLigas"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="16dp"
-            android:text="Mis Ligas"
-            app:layout_constraintTop_toBottomOf="@id/cardViewUser"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Botón Mis Participaciones -->
-        <Button
-            android:id="@+id/buttonMisParticipaciones"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="16dp"
-            android:text="Mis Participaciones"
-            app:layout_constraintTop_toBottomOf="@+id/buttonMisLigas"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+    <!-- Botón Mis Participaciones -->
+    <ImageButton
+        android:id="@+id/buttonMisParticipaciones"
+        android:src="@drawable/mis_participaciones"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewUser"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Botón 1 -->
+    <ImageButton
+        android:id="@+id/buttonAyuda"
+        android:src="@drawable/ayuda_liga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMisParticipaciones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <!-- Botón 2 -->
+    <ImageButton
+        android:id="@+id/buttonCerrarSesion"
+        android:src="@drawable/cerrar_sesion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAyuda"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

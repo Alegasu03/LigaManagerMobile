@@ -1,15 +1,16 @@
 package com.example.ligamanagermobile.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Equipo {
+public class Equipo implements Serializable {
     private String nombreEquipo;
     private String ligaId; // Referencia a la liga a la que pertenece
     private int puntuacion; // Cambié el nombre del campo para que coincida con el de Firestore
     private List<Jugador> jugadores;
-    private String propietarioId; // Nuevo campo
+    private String propietarioId;
 
-    public Equipo(String nombreEquipo, String ligaId, int puntuacion, String propietarioId) {
+    public Equipo(String nombreEquipo, String ligaId,int puntuacion, String propietarioId) {
         this.nombreEquipo = nombreEquipo;
         this.ligaId = ligaId;
         this.puntuacion = puntuacion;

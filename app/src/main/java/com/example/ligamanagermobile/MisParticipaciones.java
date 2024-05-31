@@ -3,13 +3,12 @@ package com.example.ligamanagermobile;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ligamanagermobile.model.Liga;
-import com.example.ligamanagermobile.ui.LigaAdapter;
+import com.example.ligamanagermobile.Adapters.LigaAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;

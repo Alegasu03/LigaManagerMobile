@@ -1,78 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#615A73">
+    android:background="@color/LigaManager"
+    tools:context=".LoginActivity">
 
+    <!-- Logo Image -->
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo_liga" />
+        android:layout_width="175dp"
+        android:layout_height="175dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/logo_liga"
+        android:contentDescription="Logo" />
+
+    <!-- Welcome Text -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/imageView"
+        android:layout_marginTop="24dp"
         android:text="@string/inicia_sesi_n_ncon_tu_cuenta_manager"
-        android:textSize="30sp"/>
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"/>
 
-    <EditText
-        android:id="@+id/editTextUsername"
+    <!-- Username Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_border"
-        android:hint="Usuario"
-        android:textColor="#E0E0E0"
-        android:textColorHint="#E7E7E7"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp" />
+        style="@style/Widget.TextInputLayout.BlackOutlineBox">
 
-    <EditText
-        android:id="@+id/editTextPassword"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Usuario"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Password Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextUsername"
+        android:layout_below="@id/textInputLayoutUsername"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_border"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:textColor="#E0E0E0"
-        android:textColorHint="#E7E7E7"
-        android:minHeight="48dp" />
+        style="@style/Widget.TextInputLayout.BlackOutlineBox">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Login Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/textInputLayoutPassword"
         android:layout_marginTop="30dp"
-        android:textAllCaps="false"
         android:text="Inicia Sesión"
-        android:backgroundTint="#44E1F2"/>
-    <Button
+        android:textAllCaps="false"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/button_login"/>
+
+    <!-- Register Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonLogin"
         android:layout_marginTop="16dp"
-        android:textAllCaps="false"
         android:text="Crear una cuenta"
-        android:backgroundTint="#F2BF27"/>
+        android:textAllCaps="false"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/button_register"/>
 
-    <Button
+    <!-- Admin Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/ButtonAdmin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonRegister"
         android:layout_marginTop="16dp"
-        android:textAllCaps="false"
         android:text="ADMIN"
-        android:backgroundTint="#2196F3"/>
-
-
+        android:textAllCaps="false"
+        app:cornerRadius="8dp"
+        android:backgroundTint="@color/button_admin"/>
 
 </RelativeLayout>

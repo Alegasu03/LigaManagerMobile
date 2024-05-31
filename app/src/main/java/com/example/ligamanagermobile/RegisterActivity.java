@@ -7,7 +7,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.view.View;
+import android.util.Patterns;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,10 +18,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -33,7 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseFirestore firestore;
     private String mUsername;
     private String mEmail;
-    private String mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +68,9 @@ public class RegisterActivity extends AppCompatActivity {
         // Listener del CheckBox para habilitar/deshabilitar el botón "Crear una cuenta"
         checkBoxTerms.setOnCheckedChangeListener((buttonView, isChecked) -> {
             buttonRegister.setEnabled(isChecked && !TextUtils.isEmpty(editTextCorreo.getText().toString())
-                    && !TextUtils.isEmpty(editTextContraseña.getText().toString()));
+                    && !TextUtils.isEmpty(editTextContraseña.getText().toString())
+                    && !TextUtils.isEmpty(editTextUsuario.getText().toString())
+                    && isValidEmail(editTextCorreo.getText().toString()));
         });
 
         // Listener del botón "Crear una cuenta" para realizar el registro
@@ -80,29 +79,40 @@ public class RegisterActivity extends AppCompatActivity {
             String password = editTextContraseña.getText().toString();
             String username = editTextUsuario.getText().toString();
 
-            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(username)) {
+            if (isValidEmail(email) && isValidPassword(password) && !TextUtils.isEmpty(username)) {
                 registerUser(email, password, username);
             } else {
-                Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Por favor, complete todos los campos correctamente.", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Listener del botón de administrador para iniciar sesión automáticamente
+
+    }
+
+    private boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isValidPassword(String password) {
+        // Aquí puedes agregar tus propias reglas de validación para contraseñas, por ejemplo, longitud mínima, caracteres especiales, etc.
+        return !TextUtils.isEmpty(password);
     }
 
     private void registerUser(String email, String password, String username) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Registration successful
+                        // Registro exitoso
                         FirebaseUser user = mAuth.getCurrentUser();
                         // Guardar datos en variables globales
                         mUsername = username;
                         mEmail = email;
-                        mPassword = password;
-                        // Send verification email
+                        // Enviar correo de verificación
                         sendVerificationEmail(user);
                     } else {
-                        // Registration failed
-                        Toast.makeText(RegisterActivity.this, "Error al registrar el usuario.", Toast.LENGTH_SHORT).show();
+                        // Fallo en el registro
+                        Toast.makeText(RegisterActivity.this, "Error al registrar el usuario. Por favor, intenta de nuevo.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -114,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterActivity.this, "Se ha enviado un correo de verificación", Toast.LENGTH_SHORT).show();
                             // Guardar datos en Firestore después de enviar el correo de verificación
-                            saveUserDataToFirestore(user);
+                            saveUserDataToFirestore();
                         } else {
                             Toast.makeText(RegisterActivity.this, "No se pudo enviar el correo de verificación", Toast.LENGTH_SHORT).show();
                         }
@@ -122,29 +132,38 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private void saveUserDataToFirestore(FirebaseUser user) {
-        String userId = user.getUid();
+    private void saveUserDataToFirestore() {
+        String userId = mAuth.getCurrentUser().getUid();
 
         Map<String, Object> data = new HashMap<>();
         data.put("Usuario", mUsername);
         data.put("Correo", mEmail);
-        data.put("Contraseña", mPassword);  // Agregar la contraseña a los datos a guardar
 
         firestore.collection("Usuarios").document(userId)
                 .set(data)
                 .addOnSuccessListener(documentReference -> {
-                    // Document added successfully
+                    // Documento añadido exitosamente
                     Toast.makeText(RegisterActivity.this, "Usuario registrado correctamente.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                     finish();
                 })
                 .addOnFailureListener(e -> {
-                    // Error adding document
+                    // Error al añadir documento
                     Toast.makeText(RegisterActivity.this, "Error al registrar el usuario en Firestore.", Toast.LENGTH_SHORT).show();
                 });
     }
 
-
-
-
+    private void signIn(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Inicio de sesión exitoso
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        // Fallo en el inicio de sesión
+                        Toast.makeText(RegisterActivity.this, "Error al iniciar sesión con credenciales de administrador.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 }

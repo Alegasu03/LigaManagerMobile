@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ligamanagermobile.R;
 import com.example.ligamanagermobile.model.Liga;
-import com.example.ligamanagermobile.ui.LigaAdapter;
+import com.example.ligamanagermobile.Adapters.LigaAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -62,12 +63,33 @@ public class MisLigasFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAbsoluteAdapterPosition();
                 Liga ligaToDelete = ligas.get(position);
-                ligas.remove(position);
-                ligaAdapter.notifyItemRemoved(position);
 
-                // Eliminar la liga de Firestore
-                deleteLiga(ligaToDelete.getId());
+                // Mostrar un cuadro de diálogo de confirmación
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                builder.setMessage("¿Estás seguro de que deseas eliminar esta liga?")
+                        .setTitle("Eliminar Liga");
+
+                // Agregar botón de confirmación
+                builder.setPositiveButton("Eliminar", (dialog, which) -> {
+                    // Eliminar la liga
+                    ligas.remove(position);
+                    ligaAdapter.notifyItemRemoved(position);
+
+                    // Eliminar la liga de Firestore
+                    deleteLiga(ligaToDelete.getId());
+                });
+
+                // Agregar botón de cancelar
+                builder.setNegativeButton("Cancelar", (dialog, which) -> {
+                    // Cancelar la acción de eliminación, no hacer nada
+                    ligaAdapter.notifyItemChanged(position); // Para refrescar el estado visual del elemento
+                });
+
+                // Mostrar el cuadro de diálogo
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
+
         });
 
         itemTouchHelper.attachToRecyclerView(recyclerViewLigas);
@@ -111,14 +133,11 @@ public class MisLigasFragment extends Fragment {
                                     if (task.isSuccessful()) {
                                         int numEquipos = task.getResult().size();
 
-                                        if (numEquipos < maxEquipos) {
-                                            Liga liga = new Liga(nombre, numEquipos, maxEquipos);
-                                            liga.setId(idLiga);
-                                            ligas.add(liga);
-                                            ligaAdapter.notifyDataSetChanged();
-                                        } else {
-                                            Log.d(TAG, "Ya se alcanzó el límite de equipos para la liga " + nombre);
-                                        }
+                                        // Eliminar la condición que verifica si el número de equipos es menor que el máximo permitido
+                                        Liga liga = new Liga(nombre, numEquipos, maxEquipos);
+                                        liga.setId(idLiga);
+                                        ligas.add(liga);
+                                        ligaAdapter.notifyDataSetChanged();
                                     } else {
                                         Log.d(TAG, "Error al obtener equipos para la liga " + nombre, task.getException());
                                     }

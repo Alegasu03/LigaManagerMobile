@@ -18,9 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/liguecreator"
+            android:src="@drawable/crea_una_liga"
             tools:ignore="TouchTargetSizeCheck"
-            android:contentDescription="ligamanager"/>
+            android:contentDescription="@string/ligamanager"/>
 
         <ImageButton
             android:id="@+id/imageunirseliga"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="80dp"
-            android:src="@drawable/unirseliga"
+            android:src="@drawable/unete_liga"
             tools:ignore="TouchTargetSizeCheck"
             android:contentDescription="ligamanager"/>
 

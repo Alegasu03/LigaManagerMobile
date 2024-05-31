@@ -1,82 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetallesLigaActivity"
-    android:background="#615A73">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#615A73"
+    tools:context=".DetallesLigaActivity">
 
-    <!-- Encabezado con el nombre de la liga -->
-    <TextView
-        android:id="@+id/textViewNombreLiga"
+    <!-- Título de la liga -->
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!-- Menú en la parte superior -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:text="Nombre de la Liga"
-        android:textSize="24sp" />
 
-    <!-- Apartado de la Clasificación -->
-    <LinearLayout
-        android:id="@+id/layoutClasificacion"
+        android:background="@color/white"
+        app:tabSelectedTextAppearance="@color/black"
+        app:tabSelectedTextColor="@color/black" />
+
+
+    <!-- Contenido del ViewPager -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewNombreLiga"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Título de la Clasificación -->
-        <TextView
-            android:id="@+id/textViewClasificacionTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clasificación"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- Lista de equipos en la clasificación -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewClasificacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <!-- Apartado de los Próximos Partidos -->
-    <LinearLayout
-        android:id="@+id/layoutProximosPartidos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layoutClasificacion"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Título de los Próximos Partidos -->
-        <TextView
-            android:id="@+id/textViewProximosPartidosTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Próximos Partidos"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- Lista de próximos partidos -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewProximosPartidos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <!-- Botón para agregar equipo (solo visible si es el propietario de la liga) -->
-    <ImageButton
-        android:id="@+id/btnAgregarEquipo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/button_agregar_equipo"
-        android:text="Agregar Equipo"
-        android:visibility="gone"
-        android:contentDescription="Agregar Equipo" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabLayout" />
 
 </RelativeLayout>
-

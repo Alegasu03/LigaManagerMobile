@@ -1,4 +1,4 @@
-package com.example.ligamanagermobile.ui;
+package com.example.ligamanagermobile.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

@@ -8,5 +8,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#008F39</color>
+    <color name="LigaManager">#615A73</color>
+    <color name="GrisCorporativo">#A4A4A4</color>
+
+        <color name="background_color">#FAFAFA</color>
+        <color name="text_primary">#333333</color>
+        <color name="text_hint">#888888</color>
+        <color name="button_login">#44E1F2</color>
+        <color name="button_register">#F2BF27</color>
+        <color name="button_admin">#2196F3</color>
+
+
 
 </resources>

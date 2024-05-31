@@ -29,7 +29,9 @@ public class FutbolFragment extends Fragment {
         View root = binding.getRoot();
 
         AppCompatImageButton btnCreaLiga= root.findViewById(R.id.imageButtonCreaLiga);
+        btnCreaLiga.setBackground(null);
         AppCompatImageButton btnUnirseLiga= root.findViewById(R.id.imageunirseliga);
+        btnUnirseLiga.setBackground(null);
         btnCreaLiga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
