@@ -115,6 +115,7 @@ public class Clasificacion extends Fragment {
                         DocumentSnapshot document = task.getResult();
                         if (document != null && document.exists()) {
                             String nombreLiga = document.getString("NombreLiga");
+
                             textViewNombreLiga.setText(nombreLiga);
 
                             String maxEquiposString = document.getString("NumEquipos");

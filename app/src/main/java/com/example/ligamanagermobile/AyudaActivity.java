@@ -26,9 +26,12 @@ public class AyudaActivity extends AppCompatActivity {
 
     private List<Ayuda> getAyudaList() {
         List<Ayuda> ayudaList = new ArrayList<>();
-        ayudaList.add(new Ayuda("¿Cómo crear una cuenta?", "Para crear una cuenta, haz clic en el botón 'Registrarse' y sigue las instrucciones."));
-        ayudaList.add(new Ayuda("¿Cómo restablecer mi contraseña?", "Para restablecer tu contraseña, ve a la pantalla de inicio de sesión y selecciona '¿Olvidaste tu contraseña?'."));
-        // Añade más preguntas y respuestas aquí
+        ayudaList.add(new Ayuda("¿Cómo creo una liga?", "Para crear una liga debes dirigirte al apartado de fútbol, pulsar el botón Crear Una Liga y seleccionar las distintas ocpiones que desees."));
+        ayudaList.add(new Ayuda("¿Cómo puedo ver mis ligas?", "Dirigete al apartado 'Mis Ligas', ahí podrás gestionar tus ligas. Puedes borrarlas deslizando tu liga"));
+        ayudaList.add(new Ayuda("¿Cómo creo un equipo?", "Para crear un equipo debes drigirte a la liga que desees y añadir tu equipo jugador a jugador"));
+        ayudaList.add(new Ayuda("¿Cómo participo en una liga? ¿Cómo puedo ver mis participaciones?", "Para participar en una liga debes crear un equipo dentro de esta, para ello ve al apartado de fútobl y busca una liga que se adapte a tus características. " +
+                "Para ver tus participaciones dispones de un botón en la pantalla principal"));
+        ayudaList.add(new Ayuda("¿Cómo se arbitra un partido?","Para arbitrar un partido primero de todo debes solicitar el estado de árbitro, una vez concedido este estado, debes elegir la liga que arbitrar y elegir uno de los partidos disponibles"));
         return ayudaList;
     }
 }
