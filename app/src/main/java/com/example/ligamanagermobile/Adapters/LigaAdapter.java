@@ -31,7 +31,9 @@ public class LigaAdapter extends RecyclerView.Adapter<LigaAdapter.LigaViewHolder
     public LigaAdapter(List<Liga> ligas, Context context) {
         this.ligas = ligas;
         this.context = context;
+
     }
+
 
     @NonNull
     @Override
@@ -49,9 +51,11 @@ public class LigaAdapter extends RecyclerView.Adapter<LigaAdapter.LigaViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, DetallesLigaActivity.class);
-                intent.putExtra("ligaId", liga.getId()); // Pasar el ID de la liga
-                context.startActivity(intent);
+
+                    Intent intent = new Intent(context, DetallesLigaActivity.class);
+                    intent.putExtra("ligaId", liga.getId()); // Pasar el ID de la liga
+                    context.startActivity(intent);
+
             }
         });
     }
@@ -141,6 +145,7 @@ public class LigaAdapter extends RecyclerView.Adapter<LigaAdapter.LigaViewHolder
                 Toast.makeText(context, "Error al obtener la información adicional de la liga", Toast.LENGTH_SHORT).show();
             });
         }
+
 
     }
 }

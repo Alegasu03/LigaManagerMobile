@@ -86,7 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        // Listener del botón de administrador para iniciar sesión automáticamente
 
     }
 

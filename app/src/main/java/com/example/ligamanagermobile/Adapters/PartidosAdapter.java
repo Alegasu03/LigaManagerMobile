@@ -56,5 +56,6 @@ public class PartidosAdapter extends RecyclerView.Adapter<PartidosAdapter.Partid
             textViewEquipoVisitante.setText(partido.getEquipoVisitante());
         }
     }
+
 }
 

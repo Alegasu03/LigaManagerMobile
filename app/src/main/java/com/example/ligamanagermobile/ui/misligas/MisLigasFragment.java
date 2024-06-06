@@ -133,7 +133,7 @@ public class MisLigasFragment extends Fragment {
                                     if (task.isSuccessful()) {
                                         int numEquipos = task.getResult().size();
 
-                                        // Eliminar la condición que verifica si el número de equipos es menor que el máximo permitido
+                                        // Crear objeto Liga y agregarlo a la lista
                                         Liga liga = new Liga(nombre, numEquipos, maxEquipos);
                                         liga.setId(idLiga);
                                         ligas.add(liga);

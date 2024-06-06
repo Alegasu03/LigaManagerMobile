@@ -50,11 +50,13 @@
             android:text="Portero" />
     </RadioGroup>
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonAgregarJugador"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar Jugador"
+        android:src="@drawable/agregar_jugador"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
         android:layout_marginTop="16dp" />
 
 </LinearLayout>

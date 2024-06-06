@@ -53,7 +53,6 @@ public class Clasificacion extends Fragment {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -171,8 +170,8 @@ public class Clasificacion extends Fragment {
         });
     }
 
-    private boolean hasTeam(String userId, String leagueId) {
-        CollectionReference equiposRef = db.collection("Ligas").document(leagueId).collection("Equipos");
+    private boolean hasTeam(String userId, String ligaId) {
+        CollectionReference equiposRef = db.collection("Ligas").document(ligaId).collection("Equipos");
 
         try {
             Task<QuerySnapshot> querySnapshotTask = equiposRef.whereEqualTo("PropietarioId", userId).get();

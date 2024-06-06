@@ -2,14 +2,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="?attr/selectableItemBackground">
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/textViewQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pregunta"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         android:padding="8dp" />
@@ -19,6 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Respuesta"
-        android:visibility="gone"
+        android:textColor="@color/black"
         android:padding="8dp" />
 </LinearLayout>

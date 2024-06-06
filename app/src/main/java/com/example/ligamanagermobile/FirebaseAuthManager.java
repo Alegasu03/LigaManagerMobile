@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.example.ligamanagermobile.model.Jugador;
+import com.example.ligamanagermobile.model.Partido;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -102,6 +103,30 @@ public class FirebaseAuthManager {
         }
     }
 
+    public void guardarPartidosEnLiga(String ligaId, List<Partido> partidos, OnPartidosSavedListener listener) {
+        for (Partido partido : partidos) {
+            Map<String, Object> partidoMap = new HashMap<>();
+            partidoMap.put("equipoLocal", partido.getEquipoLocal());
+            partidoMap.put("equipoVisitante", partido.getEquipoVisitante());
+            partidoMap.put("finalizado", false);
+            partidoMap.put("golesLocal", 0);
+            partidoMap.put("golesVisitante", 0);
+            partidoMap.put("faltasLocal", 0);
+            partidoMap.put("faltasVisitante", 0);
+
+            mFirestore.collection("Ligas").document(ligaId).collection("Partidos")
+                    .add(partidoMap)
+                    .addOnSuccessListener(documentReference -> {
+                        // Aquí no se hace nada específico para cada partido guardado
+                    })
+                    .addOnFailureListener(e -> {
+                        listener.onError("Error al guardar los partidos: " + e.getMessage());
+                    });
+        }
+        listener.onPartidosSaved();
+    }
+
+
     private void signInSuccess(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -115,6 +140,12 @@ public class FirebaseAuthManager {
 
     public interface OnEquipoCreatedListener {
         void onEquipoCreated();
+
+        void onError(String errorMessage);
+    }
+
+    public interface OnPartidosSavedListener {
+        void onPartidosSaved();
 
         void onError(String errorMessage);
     }

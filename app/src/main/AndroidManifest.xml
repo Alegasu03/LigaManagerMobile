@@ -13,6 +13,18 @@
         android:theme="@style/Theme.LigaManagerMobile.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".MisArbitrajesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BuscadorArbitroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ControlPartidoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListaPartidosActivity"
+            android:exported="false" />
+        <activity
             android:name=".AyudaActivity"
             android:exported="false" />
         <activity

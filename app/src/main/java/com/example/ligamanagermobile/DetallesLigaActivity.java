@@ -27,8 +27,6 @@ import java.util.List;
 
 public class DetallesLigaActivity extends AppCompatActivity {
 
-    private static final String TAG = "DetallesLigaActivity";
-
     private FirebaseFirestore db;
     private String ligaId;
 
@@ -80,7 +78,7 @@ public class DetallesLigaActivity extends AppCompatActivity {
                     case 0:
                         return Clasificacion.newInstance(ligaId);
                     case 1:
-                        return Arbitro.newInstance();
+                        return Arbitro.newInstance(ligaId);
                     case 2:
                         return Partidos.newInstance(ligaId);
                     default:

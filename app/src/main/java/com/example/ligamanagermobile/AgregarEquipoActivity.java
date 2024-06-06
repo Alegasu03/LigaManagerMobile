@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -26,7 +26,7 @@ public class AgregarEquipoActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private EditText editTextNombreEquipo;
-    private Button buttonAgregarJugador;
+    private ImageButton buttonAgregarJugador;
     private List<Jugador> jugadores;
     private int delanterosCount = 0;
     private int centrocampistasCount = 0;
@@ -59,7 +59,8 @@ public class AgregarEquipoActivity extends AppCompatActivity {
         obtenerAccesibilidadLiga(ligaId); // Llama a esta función para cargar la accesibilidad y ajustar los límites
 
         editTextNombreEquipo = findViewById(R.id.editTextNombreEquipo);
-        Button buttonCrearEquipo = findViewById(R.id.buttonCrearEquipo);
+        ImageButton buttonCrearEquipo = findViewById(R.id.buttonCrearEquipo);
+        buttonCrearEquipo.setBackground(null);
         buttonAgregarJugador = findViewById(R.id.buttonAgregarJugador);
      // Desactivar el botón hasta que la accesibilidad sea cargada
 
@@ -67,6 +68,7 @@ public class AgregarEquipoActivity extends AppCompatActivity {
 
         buttonCrearEquipo.setOnClickListener(v -> guardarEquipo());
         buttonAgregarJugador.setOnClickListener(v -> mostrarDialogAgregarJugador());
+        buttonAgregarJugador.setBackground(null);
 
     }
 
@@ -113,8 +115,8 @@ public class AgregarEquipoActivity extends AppCompatActivity {
         EditText editTextNombre = dialogView.findViewById(R.id.editTextNombre);
         EditText editTextApellido = dialogView.findViewById(R.id.editTextApellido);
         RadioGroup radioGroupPosiciones = dialogView.findViewById(R.id.radioGroupPosiciones);
-        Button buttonAgregarJugador = dialogView.findViewById(R.id.buttonAgregarJugador);
-
+        ImageButton buttonAgregarJugador = dialogView.findViewById(R.id.buttonAgregarJugador);
+        buttonAgregarJugador.setBackground(null);
         AlertDialog dialog = builder.create();
 
         buttonAgregarJugador.setOnClickListener(v -> {

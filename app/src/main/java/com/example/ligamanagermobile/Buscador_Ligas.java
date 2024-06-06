@@ -8,14 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ligamanagermobile.model.Liga;
 import com.example.ligamanagermobile.Adapters.LigaAdapter;
+import com.example.ligamanagermobile.model.Liga;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -81,10 +80,7 @@ public class Buscador_Ligas extends AppCompatActivity {
 
             String municipioSeleccionado = spinnerMunicipio.getSelectedItem().toString();
 
-            if (municipioSeleccionado.equals("Selecciona un municipio")) {
-                Toast.makeText(this, "Por favor selecciona un municipio", Toast.LENGTH_SHORT).show();
-                return;
-            }
+
 
             ligasRef.whereNotEqualTo("UsuarioPropietario", userId)
                     .addSnapshotListener((snapshots, e) -> {
@@ -128,9 +124,7 @@ public class Buscador_Ligas extends AppCompatActivity {
                             }
                         }
 
-                        if (ligas.isEmpty()) {
-                            Toast.makeText(this, "No se encontraron ligas en el municipio especificado", Toast.LENGTH_SHORT).show();
-                        }
+                  
                     });
         }
     }

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:background="@drawable/fondo_equipo">
 
     <!-- EditText para ingresar el nombre del equipo -->
@@ -12,16 +12,22 @@
         android:id="@+id/editTextNombreEquipo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:hint="@string/nombre_del_equipo"
         android:padding="16dp"
-        android:layout_marginBottom="16dp"/>
+        android:gravity="center"
+        android:background="@color/white"/>
 
     <!-- Botón para agregar jugador -->
-    <Button
+    <ImageButton
         android:id="@+id/buttonAgregarJugador"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/agregar_jugador"
+        android:src="@drawable/agregar_jugador"
+        android:adjustViewBounds="true"
+        android:maxWidth="550px"
+        android:scaleType="centerInside"
+        android:layout_marginTop="210dp"
         android:layout_marginBottom="16dp"/>
 
     <!-- Contenedor para mostrar los jugadores en la formación 3-4-3 -->
@@ -81,11 +87,13 @@
     </LinearLayout>
 
     <!-- Botón para guardar el equipo -->
-    <Button
+    <ImageButton
         android:id="@+id/buttonCrearEquipo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/guardar_equipo"
-        />
+        android:src="@drawable/save_team"
+        android:adjustViewBounds="true"
+        android:maxWidth="550px"
+        android:scaleType="centerInside"        />
 
 </LinearLayout>
